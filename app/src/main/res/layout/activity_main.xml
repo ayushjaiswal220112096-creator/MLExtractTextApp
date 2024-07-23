@@ -64,12 +64,21 @@
 
         <EditText
             android:id="@+id/resultTV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="16dp"
             android:fontFamily="sans-serif"
-            android:inputType="text"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Extracted Text Will be shown here" />
+            android:maxLines="20"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:overScrollMode="always"
+            android:imeOptions="flagNoEnterAction"
+            android:gravity="top|start"
+            android:hint="Extracted Text Will be shown here"
+            />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
