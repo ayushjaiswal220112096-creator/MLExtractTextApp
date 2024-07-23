@@ -46,6 +46,12 @@ class MainActivity : AppCompatActivity() {
 
         camera.setOnClickListener {
 
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
+            } else {
+                // Permission already granted, proceed with opening the camera
+
+
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
                 if (intent.resolveActivity(packageManager) != null) {
@@ -55,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                     // Something went wrong
                     Toast.makeText(this, "Oops! something went wrong", Toast.LENGTH_SHORT).show()
                 }
+            }
 
         }
 
@@ -67,6 +74,26 @@ class MainActivity : AppCompatActivity() {
             val clip = ClipData.newPlainText("label",result.text.toString())
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this,"Copied to Clipboard",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with opening the camera
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+                if (intent.resolveActivity(packageManager) != null) {
+                    // I want to recieve the image and send it for result extraction
+                    startActivityForResult(intent, 123)
+                } else {
+                    // Something went wrong
+                    Toast.makeText(this, "Oops! something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Camera Permission Not Granted, Enable camera to continue...", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
